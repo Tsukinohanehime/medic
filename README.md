@@ -54,3 +54,12 @@ Test adding/editing/deleting a sample medicine, the schedule day calculation, st
 - Tag filters are horizontal chips instead of a dropdown.
 - Tag creation and management moved to More → Tags; settings moved to More → Settings & backup.
 - Main navigation is five equal-width tabs and no longer requires horizontal swiping.
+
+
+## Look & feel update (v8)
+- **5 colour themes:** Lavender, Rose, Ocean, Sage and Midnight (dark). Choose in More → Theme, or tap the palette button in the top bar to cycle. The choice is remembered on the device and applied before the page paints (no flash).
+- **Easier scrolling:** bottom navigation bar with icons (always in thumb reach), sticky header, one-row swipeable tag filter that stays pinned, floating "Add" button on Medicines / Compare / Progress, and forms that open as bottom sheets on phones with a pinned Save button.
+- **Today:** doses grouped into Morning / Afternoon / Evening, large tap-anywhere tick circles, and a progress ring showing doses done.
+- **Medicines:** switch between Tiles and List views (remembered).
+- **Fix:** Edit buttons on progress entries now open the editor only when tapped.
+- Add a new theme by adding one `:root[data-theme="name"]{...}` block in styles.css and one entry in the `THEMES` array at the bottom of app.js.

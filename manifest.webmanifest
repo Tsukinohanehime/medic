@@ -5,7 +5,7 @@
   "start_url": "/Medic/",
   "scope": "/Medic/",
   "display": "standalone",
-  "background_color": "#f8f5fc",
+  "background_color": "#f7f4fc",
   "theme_color": "#8064b8",
   "icons": [
     {
