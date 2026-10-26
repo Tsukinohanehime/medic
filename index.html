@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#8b72c9"><meta name="description" content="Private medication reminder and stock tracker">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="styles.css"><title>Bloom • Medication Companion</title>
+</head>
+<body>
+<div id="lockScreen" class="lock-screen">
+  <div class="lock-card">
+    <div class="flower">✿</div><p class="eyebrow">YOUR PRIVATE SPACE</p><h1 id="lockTitle">Welcome back</h1>
+    <p class="muted" id="lockText">Enter your password to open your medication companion.</p>
+    <form id="unlockForm"><input id="passwordInput" type="password" autocomplete="current-password" placeholder="Password" required minlength="6"><button class="primary full" id="unlockBtn">Unlock</button></form>
+    <p class="error" id="lockError" role="alert"></p>
+    <button class="text-button hidden" id="setPasswordBtn">Set password</button>
+    <p class="tiny">Your data stays in this browser unless you export a backup.</p>
+  </div>
+</div>
+<div id="app" class="app hidden">
+<header class="topbar"><div><div class="brand-mark">✿</div></div><div class="brand-copy"><span class="eyebrow">YOUR GENTLE ROUTINE</span><h1>Bloom</h1></div><button id="lockNow" class="icon-button" aria-label="Lock app" title="Lock app">♙</button></header>
+<nav class="tabs" aria-label="Main navigation"><button class="tab active" data-tab="home"><span>Today</span></button><button class="tab" data-tab="medicines"><span>Medicines</span></button><button class="tab" data-tab="reserve"><span>Compare</span></button><button class="tab" data-tab="progress"><span>Progress</span></button><button class="tab" data-tab="more"><span>More</span></button></nav>
+<main>
+<section id="home" class="panel active">
+  <div class="welcome"><div><p class="eyebrow" id="todayLabel">YOUR DAILY CHECK-IN</p><h2>A little care, <span>every day.</span></h2><p class="muted">A gentle place to keep your routine organized.</p></div><div class="sun">☼</div></div>
+  <div class="stats"><article class="stat"><span>Active medicines</span><strong id="statMeds">0</strong></article><article class="stat"><span>Running low</span><strong id="statLow">0</strong></article><article class="stat"><span>Monthly estimate</span><strong id="statCost">฿0</strong></article></div>
+  <div class="section-heading"><div><p class="eyebrow">YOUR PLAN</p><h3>Today's schedule</h3></div><button class="small-button" data-goto="medicines">＋ Add</button></div>
+  <div id="todaySchedule" class="stack"></div>
+  <div class="section-heading"><div><p class="eyebrow">KEEP AN EYE ON</p><h3>Stock forecast</h3></div></div><div id="stockAlerts" class="stack"></div>
+  <p class="disclaimer">This app organizes the schedule you enter. It does not recommend medicines or determine whether a dose is medically appropriate. Follow your clinician's instructions.</p>
+</section>
+<section id="medicines" class="panel">
+  <div class="page-heading"><p class="eyebrow">YOUR PERSONAL LIST</p><h2>My medicines</h2><p class="muted">Track doses, stock, and estimated costs.</p></div>
+  <button id="addMedicine" class="primary">＋ Add a medicine</button>
+  <div class="tag-filter-wrap"><p class="filter-caption">Filter</p><div id="medTagFilter" class="tag-filter" role="group" aria-label="Filter medicines by tag"></div></div>
+  <div id="medicineList" class="medicine-grid list-space"></div>
+</section>
+<section id="reserve" class="panel">
+  <div class="page-heading"><p class="eyebrow">PLAN & COMPARE</p><h2>Considering</h2><p class="muted">Compare estimated monthly costs for medicines you may discuss with your clinician. Items here do not affect your active schedule or stock.</p></div>
+  <button id="addReserve" class="primary">＋ Add medicine to compare</button><div id="reserveList" class="stack list-space"></div>
+  <p class="disclaimer">Cost estimates depend on the schedule and package details you enter. They do not establish equivalent doses or whether switching is appropriate.</p>
+</section>
+<section id="progress" class="panel">
+  <div class="page-heading"><p class="eyebrow">PERSONAL JOURNAL</p><h2>My progress</h2><p class="muted">Record changes you notice over time. Photos and notes stay in this browser and are included in encrypted backups.</p></div>
+  <button id="addProgress" class="primary">＋ Add progress entry</button><div id="progressList" class="stack list-space"></div>
+  <p class="disclaimer">Progress entries are personal records, not a medical assessment. Changes vary between people; discuss concerns or unexpected symptoms with a qualified clinician.</p>
+</section>
+<section id="more" class="panel">
+  <div class="page-heading"><p class="eyebrow">PERSONALIZE BLOOM</p><h2>More</h2><p class="muted">Manage your tags and app settings.</p></div>
+  <div class="more-tabs" role="tablist" aria-label="More sections"><button class="more-tab active" type="button" data-more="tagsMore">Tags</button><button class="more-tab" type="button" data-more="settingsMore">Settings & backup</button></div>
+  <div id="tagsMore" class="more-panel active"><div class="card tag-manager"><h3>Custom tags</h3><p class="muted small">Create labels for any medication group. Each tag has its own color. Tags do not affect schedules or stock.</p><form id="tagForm" class="tag-create"><input id="newTagName" maxlength="30" placeholder="New tag name" aria-label="New tag name" required><button type="submit" class="secondary">＋ Add</button></form><div id="tagManagerList" class="tag-manager-list"></div></div></div>
+  <div id="settingsMore" class="more-panel"><div class="page-heading"><p class="eyebrow">YOUR APP, YOUR WAY</p><h3>Settings & backup</h3><p class="muted">Export a backup regularly so you can recover your data.</p></div>
+  
+  <div class="card setting-card"><h3>Display currency</h3><p class="muted">Costs are estimates. Currency conversion uses the rate you enter.</p><label>Show costs in<select id="currency"><option value="THB">Thai baht (THB)</option><option value="USD">US dollars (USD)</option></select></label><label>THB per 1 USD<input id="fxRate" type="number" min="0.0001" step="0.01" value="36"></label><button id="saveSettings" class="primary">Save settings</button></div>
+  <div class="card setting-card"><h3>Local backup</h3><p class="muted">Download an encrypted backup file, or restore one you previously exported.</p><button id="exportBackup" class="primary">Export backup</button><label class="file-label">Restore backup<input type="file" id="importBackup" accept=".json,application/json"></label><p id="backupMessage" class="muted small"></p></div>
+  <div class="card setting-card"><h3>Privacy & lock</h3><p class="muted">Set or change the password used to encrypt your local data.</p><button id="changePassword" class="secondary">Change password</button><p class="tiny">This lock helps protect casual access, but it cannot protect data from someone with full access to your unlocked device/browser profile. Keep your password and backup safe.</p></div>
+  <div class="card setting-card"><h3>Medication reminders</h3><p class="muted">Enable browser notifications for scheduled dose times. Reminders run while Bloom is open; background alarms are not guaranteed after the app or browser is closed.</p><button id="enableNotifications" class="secondary">Enable notifications</button><p id="notificationMessage" class="small muted"></p><p class="tiny">For dependable time-critical reminders, also use your phone’s built-in alarm or a dedicated medication reminder app.</p></div>
+  </div>
+</section>
+</main>
+<footer>Bloom • Private routine tracker</footer>
+</div>
+<dialog id="medicineDialog"><form id="medicineForm" method="dialog" class="dialog-form">
+<div class="dialog-head"><div><p class="eyebrow">MEDICINE DETAILS</p><h2 id="medicineDialogTitle">Add medicine</h2></div><button type="button" class="icon-button" data-close="medicineDialog">×</button></div>
+<input type="hidden" id="medId">
+<label>Medicine name<input id="medName" required maxlength="80" placeholder="e.g. Medicine name"></label>
+<label>Medication form<select id="medType"><option value="tablet">Tablet / pill</option><option value="gel">Gel</option><option value="other">Other</option></select></label>
+<div class="two-col"><label>Strength / notes<input id="medStrength" maxlength="80" placeholder="e.g. strength on label"></label><label>Stock / dose unit<input id="medUnit" required maxlength="30" value="tablet" placeholder="tablet, g, pump..."></label></div>
+<p class="tiny" id="unitHint">For tablets, stock is counted in tablets. Enter 0.5 for half a tablet or 0.25 for a quarter.</p>
+<label>Tags (optional)<div id="medTagChoices" class="tag-choice-list"></div></label><p class="tiny">Select any tags you have created above. You can assign more than one.</p>
+<label>Medication photo (optional)<input id="medPhoto" type="file" accept="image/*"></label><p class="tiny">Choose Camera to take a new photo, or Gallery / Photos / Files to select an existing image. Photos are resized and saved with your encrypted medication record.</p><div id="medPhotoPreview" class="photo-preview"></div>
+<div class="card package-box"><h3>What you have on hand</h3><p class="tiny">Enter only the opened package remainder and how many full, unopened packages you have. Bloom calculates total stock for you.</p><div class="two-col"><label>Units left in opened package / loose units<input id="medOpenedStock" type="number" min="0" step="any" required value="30"></label><label>Unopened packages<input id="medUnopenedPackages" type="number" min="0" step="1" required value="0"></label></div><p class="price-preview" id="stockPreview">Calculated total: 30 units</p><label>Low-stock threshold (units)<input id="medThreshold" type="number" min="0" step="any" value="7"></label></div>
+<div class="card package-box"><h3>Package & pricing</h3><p class="tiny">Enter the size and price of a box, tube, or other package. If you buy individual units, you can enter the price per unit instead.</p>
+<div class="two-col"><label>Package name<input id="medPackageLabel" maxlength="20" value="box" placeholder="box, tube, pack"></label><label>Units per package<input id="medPackageSize" type="number" min="0.001" step="any" value="30"></label></div>
+<div class="two-col"><label>Price per package (THB)<input id="medPackagePrice" type="number" min="0" step="any" value="0"></label><label>Or price per unit (THB)<input id="medPrice" type="number" min="0" step="any" value="0"></label></div>
+<p class="price-preview" id="unitPricePreview">Estimated unit price: ฿0.00</p></div>
+
+<label>Schedule days<select id="medDays"><option value="daily">Every day</option><option value="weekdays">Monday–Friday</option><option value="weekends">Saturday–Sunday</option><option value="custom">Custom days</option></select></label>
+<div id="customDays" class="day-picker hidden">
+  <label><input type="checkbox" value="1"> Mon</label><label><input type="checkbox" value="2"> Tue</label><label><input type="checkbox" value="3"> Wed</label><label><input type="checkbox" value="4"> Thu</label><label><input type="checkbox" value="5"> Fri</label><label><input type="checkbox" value="6"> Sat</label><label><input type="checkbox" value="0"> Sun</label>
+</div>
+<div id="doseRows" class="dose-rows"></div><button type="button" id="addDoseRow" class="secondary">＋ Add dose time</button>
+<label>Start date<input id="medStart" type="date"></label>
+<p class="tiny">Enter the dose and timing exactly as prescribed. Stock forecast is an estimate based on the schedule you enter.</p>
+<div class="dialog-actions"><button type="button" class="secondary" data-close="medicineDialog">Cancel</button><button type="submit" class="primary">Save medicine</button></div>
+</form></dialog>
+<dialog id="reserveDialog"><form id="reserveForm" method="dialog" class="dialog-form"><div class="dialog-head"><div><p class="eyebrow">COST COMPARISON</p><h2 id="reserveDialogTitle">Add medicine to compare</h2></div><button type="button" class="icon-button" data-close="reserveDialog">×</button></div><input type="hidden" id="reserveId">
+<label>Medicine name<input id="reserveName" required maxlength="80" placeholder="e.g. Oestrogel"></label>
+<label>Form<select id="reserveType"><option value="tablet">Tablet / pill</option><option value="gel">Gel</option><option value="other">Other</option></select></label>
+<div class="two-col"><label>Strength / label details<input id="reserveStrength" maxlength="80" placeholder="As shown on package"></label><label>Usage unit<input id="reserveUnit" value="tablet" required maxlength="30" placeholder="tablet, g, pump"></label></div>
+<label>Compare against active medicine<select id="reserveCompareTo"><option value="">All active medicines combined</option></select></label><div class="card package-box"><h3>Price & usage</h3><div class="two-col"><label>Units per package<input id="reservePackageSize" type="number" min="0.001" step="any" value="28" required></label><label>Package price (THB)<input id="reservePackagePrice" type="number" min="0" step="any" value="0" required></label></div><label>Usage per day on planned schedule<input id="reserveDailyUse" type="number" min="0" step="any" value="1" required></label><p class="tiny">Enter the amount you expect to use on each scheduled day, in the same unit as above. Use the schedule selector to estimate weekly usage.</p><label>Schedule days<select id="reserveDays"><option value="daily">Every day</option><option value="weekdays">Monday–Friday</option><option value="weekends">Saturday–Sunday</option></select></label><p class="price-preview" id="reserveCostPreview">Estimated monthly cost: ฿0.00</p></div>
+<label>Notes (optional)<textarea id="reserveNotes" rows="2" maxlength="300" placeholder="Questions to discuss with your clinician"></textarea></label><div class="dialog-actions"><button type="button" class="secondary" data-close="reserveDialog">Cancel</button><button type="submit" class="primary">Save comparison</button></div></form></dialog>
+<dialog id="progressDialog"><form id="progressForm" method="dialog" class="dialog-form"><div class="dialog-head"><div><p class="eyebrow">PERSONAL JOURNAL</p><h2 id="progressDialogTitle">Add progress entry</h2></div><button type="button" class="icon-button" data-close="progressDialog">×</button></div><input type="hidden" id="progressId"><label>Date<input id="progressDate" type="date" required></label><label>Changes noticed<textarea id="progressNotes" rows="4" maxlength="2000" placeholder="Optional: skin, mood, body changes, questions, or anything you want to remember"></textarea></label><div class="two-col"><label>Weight (optional)<input id="progressWeight" type="number" min="0" step="any" placeholder="kg"></label><label>Measurement note (optional)<input id="progressMeasure" maxlength="100" placeholder="e.g. measurement and units"></label></div><label>Photo (optional)<input id="progressPhoto" type="file" accept="image/*"></label><p class="tiny">Photos are resized before saving to reduce storage use. They remain in this browser's encrypted app data; export backups regularly. Avoid including identifying details in images if privacy is a concern.</p><div id="progressPhotoPreview" class="photo-preview"></div><div class="dialog-actions"><button type="button" class="secondary" data-close="progressDialog">Cancel</button><button type="submit" class="primary">Save entry</button></div></form></dialog>
+<dialog id="passwordDialog"><form id="passwordForm" method="dialog" class="dialog-form"><div class="dialog-head"><div><p class="eyebrow">PRIVACY</p><h2>Set app password</h2></div><button type="button" class="icon-button" data-close="passwordDialog">×</button></div><p class="muted">Use at least 6 characters. If you forget it, encrypted data cannot be recovered without the password.</p><label>Current password (if changing)<input id="oldPassword" type="password" autocomplete="current-password"></label><label>New password<input id="newPassword" type="password" minlength="6" required autocomplete="new-password"></label><label>Confirm new password<input id="confirmPassword" type="password" minlength="6" required autocomplete="new-password"></label><div class="dialog-actions"><button type="button" class="secondary" data-close="passwordDialog">Cancel</button><button type="submit" class="primary">Save password</button></div><p id="passwordError" class="error"></p></form></dialog>
+<div id="toast" class="toast" role="status"></div>
+<script src="app.js"></script>
+</body></html>

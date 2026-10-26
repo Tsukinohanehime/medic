@@ -1,0 +1,31 @@
+{
+  "name": "Bloom — Medication Companion",
+  "short_name": "Bloom",
+  "description": "Private medication schedule and stock tracker",
+  "start_url": "/Medic/",
+  "scope": "/Medic/",
+  "display": "standalone",
+  "background_color": "#f8f5fc",
+  "theme_color": "#8064b8",
+  "icons": [
+    {
+      "src": "/Medic/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Medic/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Medic/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "id": "/Medic/"
+}
