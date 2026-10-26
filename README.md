@@ -63,3 +63,7 @@ Test adding/editing/deleting a sample medicine, the schedule day calculation, st
 - **Medicines:** switch between Tiles and List views (remembered).
 - **Fix:** Edit buttons on progress entries now open the editor only when tapped.
 - Add a new theme by adding one `:root[data-theme="name"]{...}` block in styles.css and one entry in the `THEMES` array at the bottom of app.js.
+
+## Tile tidy-up (v9)
+- Photo (or a letter placeholder) sits in a fixed slot at the top of each tile, so long names never shift it; names show up to 2 lines.
+- Tile footer is now two labelled buttons: **✓ Take** (log a dose) and **＋ Stock** (restock). Tap the tile itself to edit. **Delete** moved to the bottom of the edit form.

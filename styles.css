@@ -337,3 +337,18 @@ footer{text-align:center;color:var(--muted);opacity:.7;font-size:11px;padding:18
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .tag-choice .tag-chip{background:none;border:0;padding:0}
+
+/* v8.1: tidy tiles — fixed top slot so long names never push the photo around; two clear actions */
+.tile-main{justify-content:flex-start;gap:6px;padding:12px 7px 6px}
+.medicine-thumb{width:40px;height:40px;flex:0 0 40px;border-radius:12px;object-fit:cover}
+.medicine-thumb.ph{display:grid;place-items:center;background:#ffffffb8;color:var(--tag-ink,var(--accent));font-weight:800;font-size:19px;border:1px solid var(--tag-edge,var(--line))}
+.tile-name{min-height:2.4em;display:-webkit-box;-webkit-line-clamp:2;align-content:center;word-break:break-word;overflow-wrap:anywhere}
+.tile-actions{grid-template-columns:1fr 1fr;gap:4px;padding:5px}
+.tile-actions button{height:34px;font-size:12px;font-weight:800;border-radius:10px;white-space:nowrap}
+.delete-link{display:block;margin:18px auto 0;border:0;background:none;color:var(--danger);font-weight:800;font-size:13px;padding:8px}
+/* list view */
+.medicine-grid.as-list .tile-main{flex-wrap:wrap;gap:4px 10px;padding:12px 8px 12px 12px}
+.medicine-grid.as-list .medicine-thumb{width:44px;height:44px;flex-basis:44px}
+.medicine-grid.as-list .tile-name{flex:1 1 calc(100% - 60px);min-height:0;text-align:left;align-content:flex-start}
+.medicine-grid.as-list .tile-actions{grid-template-columns:1fr;grid-template-rows:1fr 1fr;width:92px;padding:6px}
+.medicine-grid.as-list .tile-actions button{height:auto;min-height:34px;font-size:12px}

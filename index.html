@@ -86,7 +86,7 @@
 <div id="doseRows" class="dose-rows"></div><button type="button" id="addDoseRow" class="secondary">＋ Add dose time</button>
 <label>Start date<input id="medStart" type="date"></label>
 <p class="tiny">Enter the dose and timing exactly as prescribed. Stock forecast is an estimate based on the schedule you enter.</p>
-<div class="dialog-actions"><button type="button" class="secondary" data-close="medicineDialog">Cancel</button><button type="submit" class="primary">Save medicine</button></div>
+<button type="button" id="deleteMedBtn" class="delete-link hidden">Delete this medicine</button><div class="dialog-actions"><button type="button" class="secondary" data-close="medicineDialog">Cancel</button><button type="submit" class="primary">Save medicine</button></div>
 </form></dialog>
 <dialog id="reserveDialog"><form id="reserveForm" method="dialog" class="dialog-form"><div class="dialog-head"><div><p class="eyebrow">COST COMPARISON</p><h2 id="reserveDialogTitle">Add medicine to compare</h2></div><button type="button" class="icon-button" data-close="reserveDialog">×</button></div><input type="hidden" id="reserveId">
 <label>Medicine name<input id="reserveName" required maxlength="80" placeholder="e.g. Oestrogel"></label>
